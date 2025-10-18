@@ -14,7 +14,7 @@ developer: Freqtrade
 website: https://www.freqtrade.io/
 dependencies: []
 repo: https://github.com/freqtrade/freqtrade/tree/stable
-support: https://github.com/freqtrade/freqtrade/issues
+support: https://www.freqtrade.io/en/stable/faq/
 port: 11080
 gallery:
   - https://raw.githubusercontent.com/freqtrade/freqtrade/develop/docs/assets/freqtrade-screenshot.png
