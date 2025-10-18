@@ -1,42 +1,71 @@
-version: "3.7"
+version: "3.8"
 
 services:
-  app:
+  # Configuration du bot
+  freqtrade:
     # NOTE: Utilisez l'image stable_pi pour les Raspberry Pi 4 (Umbrel OS classique), ou stable pour x86/amd64 (Umbrel pour Linux/Home).
     # L'exemple ci-dessous utilise 'stable', adaptez au besoin.
     image: freqtradeorg/freqtrade:stable
-    container_name: freqtrade_app
+    container_name: freqtrade
     restart: unless-stopped
     
-    # CHOIX DU PORT : Utilisez un port libre dans la plage non-standard (>10000 est souvent sûr).
-    # Freqtrade expose son interface WebUI sur le port interne 8080.
-    # Dans cet exemple, le port externe 11080 est mappé au port interne 8080.
-    ports:
-      - "11080:8080" # Format: EXTERN_PORT:INTERN_PORT
-      
     # Mappage des volumes pour la persistance des données
     volumes:
       # L'emplacement standard de Freqtrade pour les stratégies, logs, config.
       - ${APP_DATA_DIR}/user_data:/freqtrade/user_data
-      # Si vous utilisez un fichier de configuration pour le bot (recommandé)
-      - ${APP_DATA_DIR}/config.json:/freqtrade/config.json:ro 
+      # Fichier de configuration pour le bot (recommandé)
+      - ${APP_DATA_DIR}/user_data/config.json:/freqtrade/user_data/config.json:ro
       # Base de données pour les données de trading (SQLITE par défaut)
-      - ${APP_DATA_DIR}/freqtrade.sqlite:/freqtrade/freqtrade.sqlite
+      - ${APP_DATA_DIR}/user_data/freqtrade.sqlite:/freqtrade/user_data/freqtrade.sqlite
+    
+    # CHOIX DU PORT : Utilisez un port libre dans la plage non-standard (>10000 est souvent sûr).
+    ports:
+      # Format: EXTERN_PORT:INTERN_PORT
+      # ${APP_FREQTRADE_PORT} : C'est la variable que l'App Store Umbrel va lire dans le fichier umbrel-app.yml
+      # :-8080 est une valeur par défaut de fallback, très utile si la variable n'est pas définie
+      - ${APP_FREQTRADE_PORT:-8080}:8080
+      #- "11080:8080" 
+      
+    # La commande qui lance le bot Freqtrade en mode trading (Dry-run ou Live)
+    command: >
+      trade 
+      --strategy SampleStrategy # Remplacez par votre stratégie par défaut ou laissez l'utilisateur configurer
+      --config /freqtrade/user_data/config.json 
+      --userdir /freqtrade/user_data
+      --db-url sqlite:////freqtrade/user_data/freqtrade.sqlite
+      --logfile /freqtrade/user_data/logs/freqtrade.log
       
     # Variables d'environnement pour l'interface utilisateur et le fuseau horaire
     environment:
+      - FREQTRADE_API_SERVER_ENABLED=true
+      - FREQTRADE_API_SERVER_LISTEN_IP=0.0.0.0
+      - FREQTRADE_API_SERVER_LISTEN_PORT=8080
+      
       # Expose l'interface WebUI de Freqtrade
       - FT_WEB_UI=true
       # Assurez-vous d'utiliser le fuseau horaire de l'hôte Umbrel
       - TZ=${TZ} 
       # (Optionnel) Clé d'API si nécessaire pour l'interface Web
       - FT_WEB_UI_KEY=your_secure_key # À remplacer par une vraie clé/variable Umbrel
-      
-    # La commande qui lance le bot Freqtrade en mode trading (Dry-run ou Live)
-    command: >
-      trade 
-      --strategy SampleStrategy # Remplacez par votre stratégie par défaut ou laissez l'utilisateur configurer
-      --config /freqtrade/config.json 
-      --userdir /freqtrade/user_data
-      --db-url sqlite:////freqtrade/freqtrade.sqlite
-      --logfile /freqtrade/user_data/logs/freqtrade.log
+
+    # Réseaux Docker
+    networks:
+      - freqtrade_network
+
+  # Configuration de l'interface web FreqUI (optionnelle mais recommandée)
+  freqtrade-ui:
+    image: freqtradeorg/freqtrade:stable_freqaiui
+      container_name: freqtrade-ui
+      restart: unless-stopped
+      ports:
+        - ${APP_FREQTRADE_UI_PORT:-8081}:8080
+      volumes:
+        - ${APP_DATA_DIR}/user_data:/freqtrade/user_data
+      depends_on:
+        - freqtrade
+      networks:
+        - freqtrade_network
+
+networks:
+  freqtrade_network:
+    driver: bridge
