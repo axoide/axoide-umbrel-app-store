@@ -35,9 +35,9 @@ repo: https://github.com/freqtrade/freqtrade
 support: https://www.freqtrade.io/en/stable/faq/
 ports:
   - port: 11080
-    protocol: TCP
+  #  protocol: TCP
   - port: 11081
-    protocol: TCP
+  #  protocol: TCP
 environment:
   APP_DATA_DIR: "/data/axoide-freqtrade"
   APP_FREQTRADE_PORT: "11080"
