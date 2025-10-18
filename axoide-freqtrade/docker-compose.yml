@@ -1,32 +1,33 @@
 version: "3.8"
 
 services:
-  # Configuration du bot
+  # Bot Configuration
   freqtrade:
     # Docker Image
-    # NOTE: Utilisez l'image stable_pi pour les Raspberry Pi 4 (Umbrel OS classique), ou stable pour x86/amd64 (Umbrel pour Linux/Home).
+    # NOTE: Use the stable_pi image for Raspberry Pi 4, or stable for x86/amd64 (Umbrel for Linux/Home).
+    #image: freqtradeorg/freqtrade:stable_pi
     image: freqtradeorg/freqtrade:stable
     container_name: freqtrade
     restart: unless-stopped
     
-    # Mappage des volumes pour la persistance des données
+    # Volumes Mapping for Data Persistence
     volumes:
-      # L'emplacement standard de Freqtrade pour les stratégies, logs, config.
+      # Freqtrade's standard location for strategies, logs, config.
       - ${APP_DATA_DIR}/user_data:/freqtrade/user_data
-      # Fichier de configuration pour le bot (recommandé)
+      # Configuration file for the bot (recommended)
       - ${APP_DATA_DIR}/user_data/config.json:/freqtrade/user_data/config.json:ro
-      # Base de données pour les données de trading (SQLITE par défaut)
+      # Database for trading data (SQLITE by default)
       - ${APP_DATA_DIR}/user_data/freqtrade.sqlite:/freqtrade/user_data/freqtrade.sqlite
     
-    # CHOIX DU PORT : Utilisez un port libre dans la plage non-standard (>10000 est souvent sûr).
+    # PORT SELECTION: Use a free port in the non-standard range (>10000 is often safe).
     ports:
       # Format: EXTERN_PORT:INTERN_PORT
-      # ${APP_FREQTRADE_PORT} : C'est la variable que l'App Store Umbrel va lire dans le fichier umbrel-app.yml
-      # :-8080 est une valeur par défaut de fallback, très utile si la variable n'est pas définie
+      # ${APP_FREQTRADE_PORT} : This is the variable that the Umbrel App Store will read from the umbrel-app.yml file
+      # :-8080 is a fallback default value, very useful if the variable is not defined
       - ${APP_FREQTRADE_PORT:-8080}:8080
       #- "11080:8080" 
       
-    # La commande qui lance le bot Freqtrade en mode trading (Dry-run ou Live)
+    # The command that launches the Freqtrade bot in trading mode (Dry-run or Live)
     command: >
       trade 
       --strategy SampleStrategy # Remplacez par votre stratégie par défaut ou laissez l'utilisateur configurer
@@ -35,36 +36,36 @@ services:
       --db-url sqlite:////freqtrade/user_data/freqtrade.sqlite
       --logfile /freqtrade/user_data/logs/freqtrade.log
       
-    # Variables d'environnement pour l'interface utilisateur et le fuseau horaire
+    # Environment variables for user interface and time zone
     environment:
       - FREQTRADE_API_SERVER_ENABLED=true
       - FREQTRADE_API_SERVER_LISTEN_IP=0.0.0.0
       - FREQTRADE_API_SERVER_LISTEN_PORT=8080
       
-      # Expose l'interface WebUI de Freqtrade
+      # Freqtrade WebUI Interface
       - FT_WEB_UI=true
-      # Assurez-vous d'utiliser le fuseau horaire de l'hôte Umbrel
+      # Make sure to use the Umbrel host's time zone
       - TZ=${TZ} 
-      # (Optionnel) Clé d'API si nécessaire pour l'interface Web
-      - FT_WEB_UI_KEY=your_secure_key # À remplacer par une vraie clé/variable Umbrel
+      # (Optional) API key if needed for web interface
+      - FT_WEB_UI_KEY=your_secure_key # Replace with a real Umbrel key/variable
 
-    # Réseaux Docker
+    # Docker Networks
     networks:
       - freqtrade_network
 
-  # Configuration de l'interface web FreqUI (optionnelle mais recommandée)
+  # Configuring the FreqUI web interface
   freqtrade-ui:
     image: freqtradeorg/freqtrade:stable_freqaiui
-      container_name: freqtrade-ui
-      restart: unless-stopped
-      ports:
-        - ${APP_FREQTRADE_UI_PORT:-8081}:8080
-      volumes:
-        - ${APP_DATA_DIR}/user_data:/freqtrade/user_data
-      depends_on:
-        - freqtrade
-      networks:
-        - freqtrade_network
+    container_name: freqtrade-ui
+    restart: unless-stopped
+    ports:
+      - ${APP_FREQTRADE_UI_PORT:-8081}:8080
+    volumes:
+      - ${APP_DATA_DIR}/user_data:/freqtrade/user_data
+    depends_on:
+      - freqtrade
+    networks:
+      - freqtrade_network
 
 networks:
   freqtrade_network:
