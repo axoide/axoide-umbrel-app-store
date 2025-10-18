@@ -13,7 +13,7 @@ services:
     # Volumes Mapping for Data Persistence
     volumes:
       # Freqtrade's standard location for strategies, logs, config.
-      - ${APP_DATA_DIR}/data:rw
+      - ${APP_DATA_DIR}:rw
       # Configuration file for the bot (recommended)
       #- ${APP_DATA_DIR}/data/config.json:ro
       # Database for trading data (SQLITE by default)
@@ -31,9 +31,9 @@ services:
     command: >
       trade 
       --strategy SampleStrategy
-      --config ${APP_DATA_DIR}/data/config.json 
-      --userdir ${APP_DATA_DIR}e/data
-      --db-url sqlite:///${APP_DATA_DIR}/data/freqtrade.sqlite
+      --config ${APP_DATA_DIR}/config.json 
+      --userdir ${APP_DATA_DIR}
+      --db-url sqlite:///${APP_DATA_DIR}/freqtrade.sqlite
       
     # Environment variables for user interface and time zone
     environment:
@@ -64,7 +64,6 @@ services:
 
   # Configuring the FreqUI web interface
   freqtrade-ui:
-    #image: freqtradeorg/freqtrade:stable_freqaiui
     image: freqtradeorg/frequi:latest
     container_name: freqtrade-ui
     restart: unless-stopped
@@ -73,7 +72,7 @@ services:
       - ${APP_FREQTRADE_UI_PORT:-8081}:8080
 
     volumes:
-      - ${APP_DATA_DIR}/data:ro # The UI works in read-only mode on data. If you need to write from the UI (logs, exports), change :ro to :rw.
+      - ${APP_DATA_DIR}:ro # The UI works in read-only mode on data. If you need to write from the UI (logs, exports), change :ro to :rw.
     
     depends_on:
       - freqtrade

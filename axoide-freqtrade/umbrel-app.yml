@@ -39,7 +39,7 @@ ports:
   - port: 11081
   #  protocol: TCP
 environment:
-  APP_DATA_DIR: "/data/axoide-freqtrade"
+  APP_DATA_DIR: "/data"
   APP_FREQTRADE_PORT: "11080"
   APP_FREQTRADE_UI_PORT: "11081"
   #APP_FREQTRADE_WEB_UI_KEY: "generate_a_secure_key" # Replace with a real Umbrel key/variable
