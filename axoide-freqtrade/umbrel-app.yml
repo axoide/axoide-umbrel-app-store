@@ -47,7 +47,8 @@ environment:
 gallery:
   - https://raw.githubusercontent.com/freqtrade/freqtrade/develop/docs/assets/freqtrade-screenshot.png
   - https://raw.githubusercontent.com/freqtrade/freqtrade/develop/docs/assets/freqtrade_poweredby.svg
-icon: https://www.freqtrade.io/en/stable/images/logo.png
+#icon: https://www.freqtrade.io/en/stable/images/logo.png
+icon: "./assets/freqtrade-logo.png"
 path: ""
 defaultUsername: ""
 defaultPassword: ""
