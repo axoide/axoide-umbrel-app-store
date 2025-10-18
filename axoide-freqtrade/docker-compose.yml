@@ -3,8 +3,8 @@ version: "3.8"
 services:
   # Configuration du bot
   freqtrade:
+    # Docker Image
     # NOTE: Utilisez l'image stable_pi pour les Raspberry Pi 4 (Umbrel OS classique), ou stable pour x86/amd64 (Umbrel pour Linux/Home).
-    # L'exemple ci-dessous utilise 'stable', adaptez au besoin.
     image: freqtradeorg/freqtrade:stable
     container_name: freqtrade
     restart: unless-stopped
