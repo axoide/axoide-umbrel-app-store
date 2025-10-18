@@ -1,5 +1,5 @@
 manifestVersion: 1
-id: freqtrade
+id: axoide-freqtrade
 category: bitcoin
 name: Freqtrade
 version: "2025.9.1"
