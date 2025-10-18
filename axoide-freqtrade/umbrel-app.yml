@@ -1,28 +1,27 @@
 manifestVersion: 1
-id: axoide-freqtrade
+id: freqtrade
+category: bitcoin
 name: Freqtrade
-tagline: Freqtrade is a free and open source crypto trading bot
-icon: https://www.freqtrade.io/en/stable/images/logo.png
-category: Stable
 version: "2025.9.1"
-port: 65000
+tagline: Freqtrade is a free and open source crypto trading bot
 description: >-
   Freqtrade is a free and open source crypto trading bot written in Python.
   It is designed to support all major exchanges and be controlled via Telegram or webUI.
   It contains backtesting, plotting and money management tools as well as strategy optimization by machine learning.
-  
+releaseNotes: >-
+  Add what's new in the latest version of your app here.
 developer: Freqtrade
 website: https://www.freqtrade.io/
-submitter: Freqtrade
-submission: https://github.com/freqtrade/freqtrade
+dependencies: []
 repo: https://github.com/freqtrade/freqtrade/tree/stable
 support: https://github.com/freqtrade/freqtrade/issues
+port: 65000
 gallery:
   - https://raw.githubusercontent.com/freqtrade/freqtrade/develop/docs/assets/freqtrade-screenshot.png
   - https://raw.githubusercontent.com/freqtrade/freqtrade/develop/docs/assets/freqtrade_poweredby.svg
-releaseNotes: >-
-  Add what's new in the latest version of your app here.
-dependencies: []
+icon: https://www.freqtrade.io/en/stable/images/logo.png
 path: ""
 defaultUsername: ""
 defaultPassword: ""
+submitter: Freqtrade
+submission: https://github.com/freqtrade/freqtrade
