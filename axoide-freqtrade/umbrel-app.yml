@@ -15,7 +15,7 @@ developer: Freqtrade
 website: https://www.freqtrade.io/
 submitter: Freqtrade
 submission: https://github.com/freqtrade/freqtrade
-repo: https://github.com/freqtrade/freqtrade
+repo: https://github.com/freqtrade/freqtrade/tree/stable
 support: https://github.com/freqtrade/freqtrade/issues
 gallery:
   - https://raw.githubusercontent.com/freqtrade/freqtrade/develop/docs/assets/freqtrade-screenshot.png
