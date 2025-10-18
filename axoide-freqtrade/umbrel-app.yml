@@ -33,8 +33,13 @@ website: https://www.freqtrade.io/
 dependencies: []
 repo: https://github.com/freqtrade/freqtrade
 support: https://www.freqtrade.io/en/stable/faq/
-port: 11080
+ports:
+  - port: 11080
+    protocol: TCP
+  - port: 11081
+    protocol: TCP
 environment:
+  APP_DATA_DIR: "/data/axoide-freqtrade"
   APP_FREQTRADE_PORT: "11080"
   APP_FREQTRADE_UI_PORT: "11081"
   #APP_FREQTRADE_WEB_UI_KEY: "generate_a_secure_key" # Replace with a real Umbrel key/variable
@@ -48,7 +53,9 @@ defaultUsername: ""
 defaultPassword: ""
 torOnly: false
 permissions:
-  - STORAGE_DOWNLOADS
-  - NET_ACCESS  # Pour l'accès aux exchanges
+  #- STORAGE_DOWNLOADS
+  #- NET_ACCESS  # Pour l'accès aux exchanges
+  - storage
+  - networks
 submitter: Axoïde
 submission: https://github.com/axoide/axoide-umbrel-app-store
