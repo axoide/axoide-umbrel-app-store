@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.7"
 
 services:
   # Bot Configuration
@@ -64,7 +64,8 @@ services:
 
   # Configuring the FreqUI web interface
   freqtrade-ui:
-    image: freqtradeorg/freqtrade:stable_freqaiui
+    #image: freqtradeorg/freqtrade:stable_freqaiui
+    image: freqtradeorg/frequi:latest
     container_name: freqtrade-ui
     restart: unless-stopped
 
