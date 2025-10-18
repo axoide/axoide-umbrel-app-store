@@ -42,7 +42,7 @@ environment:
 gallery:
   - https://raw.githubusercontent.com/freqtrade/freqtrade/develop/docs/assets/freqtrade-screenshot.png
   - https://raw.githubusercontent.com/freqtrade/freqtrade/develop/docs/assets/freqtrade_poweredby.svg
-icon: "./assets/freqtrade-logo.png"
+icon: "https://github.com/axoide/axoide-umbrel-app-store/axoide-freqtrade/assets/freqtrade-logo.png"
 path: ""
 defaultUsername: ""
 defaultPassword: ""
