@@ -25,12 +25,11 @@ services:
       # ${APP_FREQTRADE_PORT} : This is the variable that the Umbrel App Store will read from the umbrel-app.yml file
       # :-8080 is a fallback default value, very useful if the variable is not defined
       - ${APP_FREQTRADE_PORT:-8080}:8080
-      #- "11080:8080" 
       
     # The command that launches the Freqtrade bot in trading mode (Dry-run or Live)
     command: >
       trade 
-      --strategy SampleStrategy # Remplacez par votre stratégie par défaut ou laissez l'utilisateur configurer
+      --strategy SampleStrategy # The user will need to add their own strategies in user_data/strategies/
       --config /freqtrade/user_data/config.json 
       --userdir /freqtrade/user_data
       --db-url sqlite:////freqtrade/user_data/freqtrade.sqlite
