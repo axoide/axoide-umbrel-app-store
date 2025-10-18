@@ -46,7 +46,7 @@ services:
       # Make sure to use the Umbrel host's time zone
       - TZ=${TZ} 
       # (Optional) API key if needed for web interface
-      - FT_WEB_UI_KEY=your_secure_key # Replace with a real Umbrel key/variable
+      - FT_WEB_UI_KEY=${APP_FREQTRADE_WEB_UI_KEY:-your_secure_key}
 
     # Docker Networks
     networks:
