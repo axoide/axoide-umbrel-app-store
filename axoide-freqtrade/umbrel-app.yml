@@ -36,9 +36,9 @@ support: https://www.freqtrade.io/en/stable/faq/
 port: 11080
 environment:
   APP_FREQTRADE_PORT: "11080"
-  APP_FREQTRADE_UI_PORT: "8081"
-  APP_FREQTRADE_WEB_UI_KEY: "générez_une_clé_sécurisée"
-  TZ: "Europe/Paris"  # Ou autre fuseau horaire
+  APP_FREQTRADE_UI_PORT: "11081"
+  APP_FREQTRADE_WEB_UI_KEY: "generate_a_secure_key"
+  TZ: "Europe/Paris"  # Or other time zone
 gallery:
   - https://raw.githubusercontent.com/freqtrade/freqtrade/develop/docs/assets/freqtrade-screenshot.png
   - https://raw.githubusercontent.com/freqtrade/freqtrade/develop/docs/assets/freqtrade_poweredby.svg
