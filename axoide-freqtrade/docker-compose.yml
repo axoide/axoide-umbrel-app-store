@@ -13,7 +13,7 @@ services:
     # Volumes Mapping for Data Persistence
     volumes:
       # Freqtrade's standard location for strategies, logs, config.
-      - ${APP_DATA_DIR}/user_data:/freqtrade/user_data
+      - ${APP_DATA_DIR:-./data}/user_data:/freqtrade/user_data:rw
       # Configuration file for the bot (recommended)
       - ${APP_DATA_DIR}/user_data/config.json:/freqtrade/user_data/config.json:ro
       # Database for trading data (SQLITE by default)
@@ -33,7 +33,6 @@ services:
       --config /freqtrade/user_data/config.json 
       --userdir /freqtrade/user_data
       --db-url sqlite:////freqtrade/user_data/freqtrade.sqlite
-      --logfile /freqtrade/user_data/logs/freqtrade.log
       
     # Environment variables for user interface and time zone
     environment:
@@ -44,9 +43,19 @@ services:
       # Freqtrade WebUI Interface
       - FT_WEB_UI=true
       # Make sure to use the Umbrel host's time zone
-      - TZ=${TZ} 
+      - TZ=${TZ:-UTC} 
       # (Optional) API key if needed for web interface
       #- FT_WEB_UI_KEY=${APP_FREQTRADE_WEB_UI_KEY:-your_secure_key}
+
+    # Specifies how long Compose must wait when attempting to stop the container if it doesn't handle SIGTERM
+    stop_grace_period: 60s
+
+    # Prevent logs from growing indefinitely
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
     # Docker Networks
     networks:
@@ -57,12 +66,23 @@ services:
     image: freqtradeorg/freqtrade:stable_freqaiui
     container_name: freqtrade-ui
     restart: unless-stopped
+
     ports:
       - ${APP_FREQTRADE_UI_PORT:-8081}:8080
+
     volumes:
-      - ${APP_DATA_DIR}/user_data:/freqtrade/user_data
+      - ${APP_DATA_DIR:-./data}/user_data:/freqtrade/user_data:ro # The UI works in read-only mode on user_data. If you need to write from the UI (logs, exports), change :ro to :rw.
+    
     depends_on:
       - freqtrade
+    
+    # Prevent logs from growing indefinitely
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    
     networks:
       - freqtrade_network
 
